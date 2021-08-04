@@ -5,6 +5,7 @@
     "bugs": "https://github.com/austinjdowney/conference-app/issues",
     "dependencies": {
         "compression": "^1.7.4",
+        "edge": "^7.10.1",
         "express": "^4.17.1",
         "helmet": "^4.6.0"
     },
@@ -48,5 +49,10 @@
         "watch": "run-p watch:client watch:server",
         "watch:client": "lwc-services watch",
         "watch:server": "nodemon"
+    },
+    "devDependencies": {
+        "eslint": "^7.32.0",
+        "husky": "^7.0.1",
+        "prettier": "^2.3.2"
     }
 }
