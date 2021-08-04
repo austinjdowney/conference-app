@@ -51,6 +51,7 @@
         "watch:server": "nodemon"
     },
     "devDependencies": {
+        "error-overlay-webpack-plugin": "^0.4.2",
         "eslint": "^7.32.0",
         "eslint-plugin-inclusive-language": "^2.1.1",
         "husky": "^7.0.1",
