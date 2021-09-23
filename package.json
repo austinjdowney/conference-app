@@ -5,9 +5,11 @@
     "bugs": "https://github.com/austinjdowney/conference-app/issues",
     "dependencies": {
         "compression": "^1.7.4",
+        "dotenv": "^10.0.0",
         "edge": "^7.10.1",
         "express": "^4.17.1",
-        "helmet": "^4.6.0"
+        "helmet": "^4.6.0",
+        "jsforce": "^1.0.0"
     },
     "engines": {
         "node": ">=10.13.0",
