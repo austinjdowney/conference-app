@@ -34,43 +34,40 @@ app.get('/api/sessions', (req, res) => {
         (SELECT Speaker__r.Id, Speaker__r.Name, Speaker__r.Description, Speaker__r.Email, Speaker__r.Picture_URL__c FROM Session_Speakers__r)
         FROM Session__c ORDER BY Date_and_Time__c LIMIT 100`;
 
-
     /* Salesforce connection */
     conn.query(soql, (err, result) => {
-    if (err) {
-        res.sendStatus(500);
-    } else if (result.records.length === 0) {
-        res.status(404).send('Session not found.');
-    } else {
-        const formattedData = result.records.map(sessionRecord => {
-            let speakers = [];
-            if(sessionRecord.Session_Speakers__r){
-                speakers = sessionRecord.Session_Speakers__r.records.map(
-                    record => {
-                        return {
-                            id: record.Speaker__r.Id,
-                            name: record.Speaker__r.Name,
-                            email: record.Speaker__r.Email,
-                            bio: record.Speaker__r.Description,
-                            pictureUrl: record.Speaker__r.Picture_URL__c
-                        };
+            if (err) {
+                res.sendStatus(500);
+            } else if (result.records.length === 0) {
+                res.status(404).send('Session not found.');
+            } else {
+                const formattedData = result.records.map(sessionRecord => {
+                    let speakers = [];
+                    if (sessionRecord.Session_Speakers__r) {
+                        speakers = sessionRecord.Session_Speakers__r.records.map(
+                            record => {
+                                return {
+                                    id: record.Speaker__r.Id,
+                                    name: record.Speaker__r.Name,
+                                    email: record.Speaker__r.Email,
+                                    bio: record.Speaker__r.Description,
+                                    pictureUrl: record.Speaker__r.Picture_URL__c
+                                };
+                            }
+                        );
                     }
-                );
+                    return {
+                        id: sessionRecord.Id,
+                        name: sessionRecord.Name,
+                        dateTime: sessionRecord.formattedDateTime,
+                        room: sessionRecord.Room__c,
+                        description: sessionRecord.Description__c,
+                        speakers
+                    };
+                });
+                res.send({ data: formattedData });
             }
-            return {
-                id: sessionRecord.Id,
-                name: sessionRecord.Name,
-                dateTime: sessionRecord.formattedDateTime,
-                room: sessionRecord.Room__c,
-                description: sessionRecord.Description__c,
-                speakers
-            };
         });
-        res.send({ data: formattedData });
-/* Work with result data */
-
-}
-});
 });
 
 app.listen(PORT, () =>
